@@ -4650,20 +4650,7 @@ var render = function() {
                           return _c("tr", { key: user.id }, [
                             _c("td", [_vm._v(_vm._s(user.name))]),
                             _vm._v(" "),
-                            _c("td", [
-                              _c(
-                                "a",
-                                {
-                                  staticClass: "btn btn-info",
-                                  attrs: { href: "user-edit/" + user.id }
-                                },
-                                [_vm._v("Edit")]
-                              ),
-                              _vm._v(" "),
-                              _c("button", { staticClass: "btn btn-danger" }, [
-                                _vm._v("Delete")
-                              ])
-                            ])
+                            _vm._m(2, true)
                           ])
                         }),
                         0
@@ -4718,6 +4705,16 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Operation")])
       ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", [
+      _c("button", { staticClass: "btn btn-info" }, [_vm._v("Edit")]),
+      _vm._v(" "),
+      _c("button", { staticClass: "btn btn-danger" }, [_vm._v("Delete")])
     ])
   }
 ]

@@ -94,8 +94,6 @@ class PermissionController extends Controller
     public function edit($id)
     {
         $permission = Permission::find($id);
-
-        return view('permissions.edit', compact('permission'));
     }
 
     /**
@@ -116,11 +114,6 @@ class PermissionController extends Controller
         $input = $request->all();
         $permission->fill($input)->save();
 
-        return redirect()->route('permissions.index')
-            ->with(
-                'flash_message',
-                'Permission' . $permission->name . ' updated!'
-            );
     }
 
     /**
@@ -133,20 +126,11 @@ class PermissionController extends Controller
     {
         $permission = Permission::findOrFail($id);
 
-        if ($permission->name == "Administer roles & permissions") {
-            return redirect()->route('permissions.index')
-                ->with(
-                    'flash_message',
-                    'Cannot delete this Permission!'
-                );
+        if ($permission->name == "Admin") {
+            return response()->json(null, 401);
         }
 
         $permission->delete();
 
-        return redirect()->route('permissions.index')
-            ->with(
-                'flash_message',
-                'Permission deleted!'
-            );
     }
 }

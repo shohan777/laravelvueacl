@@ -21,7 +21,7 @@
                                         <tr v-for="user in users" v-bind:key="user.id">
                                             <td>{{ user.name }}</td>
                                             <td>
-                                                <a class="btn btn-info" :href="'user-edit/'+ user.id">Edit</a>
+                                                <button class="btn btn-info">Edit</button>
                                                 <button class="btn btn-danger">Delete</button>
                                             </td>
                                         </tr>
