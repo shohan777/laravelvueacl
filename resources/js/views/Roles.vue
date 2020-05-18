@@ -51,6 +51,9 @@
             }
         },
         created() {
+            if(!this.can('Admin')) {
+                this.$router.push('/');
+            }
             this.getRoles();
         },
         methods: {

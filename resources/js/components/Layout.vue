@@ -65,9 +65,6 @@
             return {
                 csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
             }
-        },
-        mounted() {
-            console.log('Component mounted.')
         }
     }
 

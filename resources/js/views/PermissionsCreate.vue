@@ -39,6 +39,11 @@ import axios from 'axios'
                 csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
             }
         },
+        created() {
+            if(!this.can('Admin')) {
+                this.$router.push('/');
+            }
+        },
         methods: {
             submit() {
                 this.errors = {};

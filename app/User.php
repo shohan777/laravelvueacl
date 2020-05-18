@@ -2,14 +2,17 @@
 
 namespace App;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Spatie\Permission\Traits\HasRoles;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Auth;
 
 class User extends Authenticatable
 {
+    use HasRoles;
     use Notifiable;
-    // use HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -29,12 +32,19 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
+    public function setPasswordAttribute($password)
+    {
+        $this->attributes['password'] = bcrypt($password);
+    }
+
+    public function getAllPermissionsAttribute()
+    {
+        $roles = [];
+        foreach (Role::all() as $role) {
+            if (Auth::user()->hasRole($role->name)) {
+                $roles[] = $role->name;
+            }
+        }
+        return $roles;
+    }
 }

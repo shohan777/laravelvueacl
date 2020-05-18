@@ -13,21 +13,28 @@
         <hr class="sidebar-divider my-0">
 
         <!-- Nav Item - Dashboard -->
-        <li class="nav-item active">
+        <li class="nav-item">
             <router-link :to="{ path: '/' }" class="nav-link">
                 <i class="fas fa-fw fa-tachometer-alt"></i>
                 <span>Dashboard</span>
             </router-link>
         </li>
 
-        <li class="nav-item active">
+        <li class="nav-item" v-if="can('Admin')">
+            <router-link :to="{ path: '/users' }" class="nav-link">
+                <i class="fas fa-fw fa-tachometer-alt"></i>
+                <span>Users</span>
+            </router-link>
+        </li>
+
+        <li class="nav-item" v-if="can('Admin')">
             <router-link :to="{ path: '/roles' }" class="nav-link">
                 <i class="fas fa-fw fa-tachometer-alt"></i>
                 <span>Roles</span>
             </router-link>
         </li>
 
-        <li class="nav-item active">
+        <li class="nav-item" v-if="can('Admin')">
             <router-link :to="{ path: '/permissions' }" class="nav-link">
                 <i class="fas fa-fw fa-tachometer-alt"></i>
                 <span>Permissions</span>
@@ -38,6 +45,7 @@
 </template>
 
 <script>
+
     export default {
 
     }

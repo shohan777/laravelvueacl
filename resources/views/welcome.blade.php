@@ -31,6 +31,14 @@
     <div id="app"></div>
 
     <!-- Custom scripts for all pages-->
+    <script>
+        @auth
+            window.roles = {!! json_encode(Auth::user()->allPermissions, true) !!};
+        @else
+            window.roles = [];
+        @endauth
+    </script>
+
     <script src="{{ asset('js/jquery.min.js') }}"></script>
     <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('js/sb-admin-2.min.js') }}"></script>

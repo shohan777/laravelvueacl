@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Role Create</h1>
+            <h1 class="h3 mb-0 text-gray-800">User Create</h1>
         </div>
 
         <div class="row">
@@ -17,11 +17,23 @@
                                         v-model="fields.name" />
                                     <div v-if="errors && errors.name" class="text-danger">{{ errors.name[0] }}</div>
                                 </div>
-                                <div v-if="permissions" class="pl-4">
-                                    <div v-for="(permission, index) in permissions" class="form-group">
+                                <div class="form-group">
+                                    <label for="email">Email</label>
+                                    <input type="email" class="form-control" name="email" id="email"
+                                        v-model="fields.email" />
+                                    <div v-if="errors && errors.email" class="text-danger">{{ errors.email[0] }}</div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="password">Password</label>
+                                    <input type="password" class="form-control" name="password" id="password"
+                                        v-model="fields.password" />
+                                    <div v-if="errors && errors.password" class="text-danger">{{ errors.password[0] }}</div>
+                                </div>
+                                <div v-if="roles" class="pl-4">
+                                    <div v-for="(role) in roles" class="form-group" v-bind:key="role.id">
                                         <label class="form-check-label">
                                             <input type="checkbox" class="form-check-input"
-                                                v-model="fields.permissions" :value="permission.id">{{ permission.name }}
+                                                v-model="fields.roles" :value="role.id">{{ role.name }}
                                         </label>
                                     </div>
                                 </div>
@@ -42,9 +54,11 @@ import axios from 'axios'
             return {
                 fields: {
                     name: '',
-                    permissions: []
+                    email: '',
+                    password: '',
+                    roles: []
                 },
-                permissions: {},
+                roles: {},
                 errors: {},
                 csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
             }
@@ -53,13 +67,13 @@ import axios from 'axios'
             if(!this.can('Admin')) {
                 this.$router.push('/');
             }
-            this.getPermissions();
+            this.getRoles();
         },
         methods: {
             submit() {
                 this.errors = {};
-                axios.post('api/roles', this.fields).then(response => {
-                    this.$router.push('/roles')
+                axios.post('api/users', this.fields).then(response => {
+                    this.$router.push('/users')
 
                 }).catch(error => {
                     if (error.response.status === 422) {
@@ -68,13 +82,13 @@ import axios from 'axios'
                     }
                 });
             },
-            getPermissions() {
+            getRoles() {
 
-                axios.get('api/permissions/')
+                axios.get('api/roles/')
                     .then(({
                         data
                     }) => {
-                        this.permissions = data;
+                        this.roles = data;
                     });
             },
         }

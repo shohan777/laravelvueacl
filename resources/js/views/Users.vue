@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Permissions</h1>
+            <h1 class="h3 mb-0 text-gray-800">Users</h1>
         </div>
 
         <div class="row">
@@ -13,15 +13,15 @@
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
-                                            <th>Permission</th>
+                                            <th>Users</th>
                                             <th>Operation</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr v-for="permission in permissions">
-                                            <td>{{ permission.name }}</td>
+                                        <tr v-for="user in users" v-bind:key="user.id">
+                                            <td>{{ user.name }}</td>
                                             <td>
-                                                <button class="btn btn-info">Edit</button>
+                                                <a class="btn btn-info" :href="'user-edit/'+ user.id">Edit</a>
                                                 <button class="btn btn-danger">Delete</button>
                                             </td>
                                         </tr>
@@ -30,8 +30,8 @@
                             </div>
                         </div>
                         <div class="row no-gutters align-items-center">
-                            <router-link :to="{ path: '/permission-create' }" class="btn btn-primary">
-                                <span>Create Permission</span>
+                            <router-link :to="{ path: '/user-create' }" class="btn btn-primary">
+                                <span>Create User</span>
                             </router-link>
                         </div>
                     </div>
@@ -42,30 +42,28 @@
 </template>
 
 <script>
-    import axios from 'axios'
+    import axios from 'axios';
 
     export default {
         data() {
             return {
-                permissions: {}
+                users: {},
             }
         },
         created() {
             if(!this.can('Admin')) {
                 this.$router.push('/');
             }
-            this.getPermissions();
+            this.getUsers();
         },
         methods: {
-            getPermissions() {
-                axios.get('api/permissions/')
-                    .then(({
-                        data
-                    }) => {
-                        this.permissions = data;
+            getUsers() {
+                axios.get('api/users/')
+                    .then(({data}) => {
+                        this.users = data;
                     });
             },
         }
-    }
 
+    }
 </script>
